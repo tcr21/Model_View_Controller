@@ -3,23 +3,30 @@ package ic.doc;
 import java.util.Stack;
 
 public class Calculator {
+    private final Updatable view;
     public Stack<Integer> currentDigits = new Stack<>();
-    public void addToCurrentDigits(int i) {
-        currentDigits.add(i);
+
+    public Calculator(Updatable view) {
+        this.view = view;
     }
 
-    public int calculate(String name) {
+    public void addToCurrentDigits(int i) {
+        currentDigits.add(i);
+        view.update(this);
+    }
+
+    public void calculate(String name) {
         if (currentDigits.size() < 2) throw new IllegalStateException("Not enough numbers on stack");
         int second = currentDigits.pop();
         int first = currentDigits.pop();
         int result = 0;
-        if (name == "+") {
+        if (name.equals("+")) {
             result = first + second;
         }
-        else if (name == "-") {
+        else if (name.equals("-")) {
             result = first - second;
         }
         currentDigits.add(result);
-        return result;
+        view.update(this);
     }
 }
