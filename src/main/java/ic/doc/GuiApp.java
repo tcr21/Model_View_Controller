@@ -4,9 +4,13 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GuiApp {
-  public static void main(String[] args) {
+  private PressButton pressButton = new PressButton();
+
+    public static void main(String[] args) {
     new GuiApp().display();
   }
 
@@ -17,20 +21,34 @@ public class GuiApp {
         JPanel panel = new JPanel();
         final JTextField textField = new JTextField(10);
 
-        ArrayList<JButton> digitButtons = new ArrayList<>();
+        // Create button for each digit
         for (int i = 0; i < 10; i++){
-            digitButtons.add(new JButton(Integer.toString(i)));
-            digitButtons.get(i).addActionListener(actionEvent -> textField.setText("Pressed"));
-            panel.add(digitButtons.get(i));
+            JButton digitButton = new JButton(Integer.toString(i));
+            int finalI = i;
+            digitButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    // When button is pressed, add to stack of digits
+                    pressButton.addToCurrentDigits(finalI);
+                    textField.setText(Integer.toString(finalI));
+                }
+            });
+            panel.add(digitButton);
         }
 
-        ArrayList<JButton> operatorButtons = new ArrayList<>();
-        operatorButtons.add(new JButton("+"));
-        operatorButtons.add(new JButton("-"));
-
-        for (int i = 0; i < operatorButtons.size(); i++){
-            operatorButtons.get(i).addActionListener(actionEvent -> textField.setText("Pressed"));
-            panel.add(operatorButtons.get(i));
+        // Create button for each operation
+        List<String> operatorNames = Arrays.asList("+", "-");
+        for (int i=0; i < operatorNames.size(); i++) {
+            JButton operatorButton = new JButton(operatorNames.get(i));
+            int finalI = i;
+            operatorButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // When operator button is pressed, perform operation of top two digits in stack
+                    int result = pressButton.calculate(operatorNames.get(finalI));
+                    textField.setText(Integer.toString(result));
+                }
+            });
+            panel.add(operatorButton);
         }
 
         panel.add(textField);
