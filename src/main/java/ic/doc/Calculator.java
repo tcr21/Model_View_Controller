@@ -2,13 +2,14 @@ package ic.doc;
 
 import java.util.Stack;
 
-public class PressButton {
-    private Stack<Integer> currentDigits = new Stack<>();
+public class Calculator {
+    public Stack<Integer> currentDigits = new Stack<>();
     public void addToCurrentDigits(int i) {
         currentDigits.add(i);
     }
 
     public int calculate(String name) {
+        if (currentDigits.size() < 2) throw new IllegalStateException("Not enough numbers on stack");
         int second = currentDigits.pop();
         int first = currentDigits.pop();
         int result = 0;

@@ -3,12 +3,11 @@ package ic.doc;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class GuiApp {
-  private PressButton pressButton = new PressButton();
+  private Calculator calculator = new Calculator();
 
     public static void main(String[] args) {
     new GuiApp().display();
@@ -28,7 +27,7 @@ public class GuiApp {
             digitButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     // When button is pressed, add to stack of digits
-                    pressButton.addToCurrentDigits(finalI);
+                    calculator.addToCurrentDigits(finalI);
                     textField.setText(Integer.toString(finalI));
                 }
             });
@@ -44,7 +43,7 @@ public class GuiApp {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // When operator button is pressed, perform operation of top two digits in stack
-                    int result = pressButton.calculate(operatorNames.get(finalI));
+                    int result = calculator.calculate(operatorNames.get(finalI));
                     textField.setText(Integer.toString(result));
                 }
             });
