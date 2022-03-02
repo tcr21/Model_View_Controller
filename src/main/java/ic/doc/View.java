@@ -6,41 +6,43 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class View implements Updatable{
-    JTextField textField = new JTextField(10);
-    public ArrayList<JButton> digitButtons = new ArrayList<>();
-    public ArrayList<JButton> operatorButtons = new ArrayList<>();
+public class View implements Updatable {
+  private final JTextField textField = new JTextField(10);
+  private ArrayList<JButton> digitButtons = new ArrayList<>();
+  private ArrayList<JButton> operatorButtons = new ArrayList<>();
 
-    public View(ActionListener controller) {
-        JFrame frame = new JFrame("RPN App");
-        frame.setSize(400, 300);
+  public View(ActionListener controller) {
+    JFrame frame = new JFrame("RPN App");
+    frame.setSize(400, 300);
 
-        JPanel panel = new JPanel();
+    JPanel panel = new JPanel();
 
-        // Create button for each digit
-        JButton button;
-        for (int i = 0; i<10; i++) {
-            button = new JButton(Integer.toString(i));
-            button.addActionListener(controller);
-            digitButtons.add(button);
-            panel.add(button);
-        }
-
-        // Create button for each operator
-        List<String> operatorNames = Arrays.asList("+", "-");
-        for (String operatorName : operatorNames) {
-            button = new JButton(operatorName);
-            operatorButtons.add(button);
-            panel.add(button);
-        }
-
-        panel.add(textField);
-        frame.getContentPane().add(panel);
-        frame.setVisible(true);
+    JButton button;
+    // Create button for each digit and add to array of buttons
+    for (int i = 0; i < 10; i++) {
+      button = new JButton(Integer.toString(i));
+      button.addActionListener(controller);
+      digitButtons.add(button);
+      panel.add(button);
     }
 
-    @Override
-    public void update(Calculator calculator) {
-        textField.setText(Integer.toString(calculator.currentDigits.peek()));
+    // Create button for each operator and add to array of buttons
+    List<String> operatorNames = Arrays.asList("+", "-");
+    for (String operatorName : operatorNames) {
+      button = new JButton(operatorName);
+      operatorButtons.add(button);
+      button.addActionListener(controller);
+      panel.add(button);
     }
+
+    panel.add(textField);
+    frame.getContentPane().add(panel);
+    frame.setVisible(true);
+  }
+
+  @Override
+  // Always show top of stack
+  public void update(Model calculator) {
+    textField.setText(Integer.toString(calculator.currentDigits.peek()));
+  }
 }
