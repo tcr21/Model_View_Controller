@@ -1,10 +1,13 @@
 package ic.doc;
 
-import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
 
 public class View implements Updatable {
   private final JTextField textField = new JTextField(10);
